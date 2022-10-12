@@ -1,7 +1,17 @@
-var a = [1, 6, 3, 8, 5, 6, 7]
-console.log(a)
+const express = require("express")
+const app = express()
 
-a.map((v, i) => 
-   a[i] = a[i] * 2
-)
-console.log(a)
+app.use("/", express.static("client"))
+
+app.get("/a/b", (req, res) => {
+   res.send("du bist bei /a/b")
+})
+
+app.post("/postname", (req, res) => {
+   console.log(req.body)
+   res.send(req.body)
+})
+
+app.listen(6677, () => {
+   console.log("[express] server listening")
+})
