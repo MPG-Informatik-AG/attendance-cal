@@ -9,9 +9,13 @@ app.get("/a/b", (req, res) => {
    res.send("du bist bei /a/b")
 })
 
-app.post("/postname", (req, res) => {
+app.post("/login", (req, res) => {
    console.log(req.body)
-   res.send("ok")
+   if (req.body.name == "marc" && req.body.password == "pass") {
+      res.send("ok")
+   } else {
+      res.status(401).send("login failed")
+   }
 })
 
 app.listen(6677, () => {

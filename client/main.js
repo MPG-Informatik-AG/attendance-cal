@@ -1,11 +1,26 @@
-function button_clicked() {
-    let value = document.getElementById("name-input").value
-    console.log(value)
-
-    var xhr = new XMLHttpRequest()
-    xhr.open("POST", "http://localhost:6677/postname", true)
-    xhr.setRequestHeader('Content-Type', 'application/json')
-    xhr.send(JSON.stringify({
-        name: value
-    }))
+window.onload = () => {
+    console.log("loaded")
+    let username = getCookie("username")
+    let pass = getCookie("password")
+    if (!username || !pass) {
+        window.location = "./login"
+        return
+    }
+    console.log(username, pass)
 }
+
+function getCookie(cname) {
+    let name = cname + "="
+    let decodedCookie = decodeURIComponent(document.cookie)
+    let ca = decodedCookie.split(';')
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i]
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1)
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length)
+      }
+    }
+    return undefined
+  }

@@ -1,4 +1,3 @@
-body {
-    background-color: black;
-    color: red;
+#error-text {
+    color: rgb(153, 42, 42);
 }
