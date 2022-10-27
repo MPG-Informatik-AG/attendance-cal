@@ -1,12 +1,9 @@
 window.onload = () => {
-    console.log("loaded")
-    let username = getCookie("username")
-    let pass = getCookie("password")
-    if (!username || !pass) {
+    let loginhash = getCookie("loginhash")
+    if (!loginhash) {
         window.location = "./login"
         return
     }
-    console.log(username, pass)
 }
 
 function getCookie(cname) {

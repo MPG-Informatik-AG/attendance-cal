@@ -1,22 +1,20 @@
 function button_clicked() {
     let name = document.getElementById("name-input").value
     let pass = document.getElementById("pass-input").value
-    console.log(name)
+    
+    let loginhash = sha512(`${name}:${pass}Attendance`)
 
     var xhr = new XMLHttpRequest()
     xhr.open("POST", "http://localhost:6677/login", false)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send(JSON.stringify({
-        name: name,
-        password: pass
+        loginhash: loginhash
     }))
     if (xhr.status == 200) {
-        setCookie("username", name, 7)
-        setCookie("password", pass, 7)
+        setCookie("loginhash", loginhash, 7)
         document.location = "../"
     } else {
         document.getElementById("error-text").innerHTML = xhr.responseText
-        console.log(xhr.response)
     }
 }
 
