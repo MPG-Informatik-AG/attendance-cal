@@ -1,0 +1,28 @@
+#person-list {
+    position: fixed;
+    top: 2%;
+    right: 2%;
+    border-color: black;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+#new-person-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    align-items: center;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+#new-person-popup button {
+    margin-top: 10px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    display: block;
+}
