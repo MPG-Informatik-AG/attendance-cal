@@ -21,7 +21,8 @@ function getAllPersons() {
 
 		let persons = JSON.parse(xhr.response)
 		for (let p of persons) {
-			document.getElementById("person-list").innerHTML += `<div class="person">- ${p.name} - ${p.id}</div>`
+			document.getElementById("person-list").innerHTML += `<div class="person">- ${p.name} - ${p.id}  
+			<a onclick="personToDelete = ${p.id}; document.getElementById('delete-person-popup').style.display = 'block'">delete</a></div>`
 		}
     } else {
         console.error(xhr.response)
@@ -29,7 +30,6 @@ function getAllPersons() {
 }
 
 function createPerson() {
-	console.log("asd")
 	var xhr = new XMLHttpRequest()
     xhr.open("POST", "http://localhost:6677/new/person", false)
     xhr.setRequestHeader('Content-Type', 'application/json')
@@ -39,6 +39,24 @@ function createPerson() {
     }))
     if (xhr.status == 200) {
 		getAllPersons()
+		document.getElementById('new-person-popup').style.display = 'none'
+    } else {
+        console.error(xhr.response)
+    }
+}
+
+let personToDelete = -1
+function deletePerson() {
+	var xhr = new XMLHttpRequest()
+    xhr.open("POST", "http://localhost:6677/delete/person", false)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify({
+        loginhash: loginhash,
+		id: personToDelete
+    }))
+    if (xhr.status == 200) {
+		getAllPersons()
+		document.getElementById('delete-person-popup').style.display = 'none'
     } else {
         console.error(xhr.response)
     }

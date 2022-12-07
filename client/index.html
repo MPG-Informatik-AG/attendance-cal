@@ -7,13 +7,22 @@
     <body>
         this is the main page
         <div id="person-list">
+            <button onclick="document.getElementById('new-person-popup').style.display = 'block'">create person</button><br>
             these are all persons:
         </div>
 
-        <div id="new-person-popup">
+        <div id="new-person-popup" class="popup" style="display: none">
             <h3>Create Person</h3>
             <input id="new-person-name" type="text" placeholder="please enter a name ..."/>
             <button onclick="createPerson()">Create person</button>
+            <button onclick="document.getElementById('new-person-popup').style.display = 'none'">Cancel</button>
+        </div>
+
+        <div id="delete-person-popup" class="popup" style="display: none">
+            <h3>Delete Person</h3>
+            <p>Do you really want to delete the person?</p>
+            <button onclick="deletePerson()">Delete</button>
+            <button onclick="document.getElementById('delete-person-popup').style.display = 'none'">Cancel</button>
         </div>
     </body>
 </html>

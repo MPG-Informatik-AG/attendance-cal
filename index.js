@@ -7,12 +7,7 @@ app.use(body_parser.json({limit: "50mb"}))
 app.use("/", express.static("client"))
 
 //// temp db
-var persons = [
-   {
-      name: "tetsname",
-      id: 99999
-   }
-]
+var persons = []
 var person_id = 0
 
 app.get("/a/b", (req, res) => {
@@ -51,6 +46,14 @@ app.post("/get/persons", (req, res) => {
       return res.status(401).send("wrong login hash")
    }
    res.send(JSON.stringify(persons))
+})
+
+app.post("/delete/person", (req, res) => {
+   if (!check_hash(req.body.loginhash)) {
+      return res.status(401).send("wrong login hash")
+   }
+   persons.splice(persons.findIndex(e => e.id == req.body.id), 1)
+   res.send("ok")
 })
 
 app.listen(6677, () => {

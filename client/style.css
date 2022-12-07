@@ -6,9 +6,16 @@
     border-width: 3px;
     border-style: solid;
     border-radius: 5px;
+    cursor: default;
 }
 
-#new-person-popup {
+.person a {
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.popup {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -20,7 +27,7 @@
     transform: translate(-50%, -50%);
 }
 
-#new-person-popup button {
+.popup button {
     margin-top: 10px;
     margin-left: 50%;
     transform: translateX(-50%);
