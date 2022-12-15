@@ -2,13 +2,10 @@ const express = require("express")
 const body_parser = require("body-parser")
 const sha = require("js-sha512")
 const app = express()
+const db_handler = require("./db_handler")
 
 app.use(body_parser.json({limit: "50mb"}))
 app.use("/", express.static("client"))
-
-//// temp db
-var persons = []
-var person_id = 0
 
 app.get("/a/b", (req, res) => {
    res.send("du bist bei /a/b")
@@ -23,37 +20,61 @@ app.post("/login", (req, res) => {
    }
 })
 
-/*
-{
-   loginhash: "",
-   name: "",
-}
-*/
 app.post("/new/person", (req, res) => {
    if (!check_hash(req.body.loginhash)) {
       return res.status(401).send("wrong login hash")
    }
-   persons.push({
-      name: req.body.name,
-      id: person_id
+
+   db_handler.createPersonInDB(req.body.name).then(r => {
+      res.send(r)
+   }).catch(err => {
+      res.status(500).send(err)
    })
-   person_id++
-   res.send("ok")
 })
 
 app.post("/get/persons", (req, res) => {
    if (!check_hash(req.body.loginhash)) {
       return res.status(401).send("wrong login hash")
    }
-   res.send(JSON.stringify(persons))
+   db_handler.getAllPersonsFromDB().then(r => {
+      res.send(r)
+   }).catch(err => {
+      res.status(500).send(err)
+   })
 })
 
 app.post("/delete/person", (req, res) => {
    if (!check_hash(req.body.loginhash)) {
       return res.status(401).send("wrong login hash")
    }
-   persons.splice(persons.findIndex(e => e.id == req.body.id), 1)
-   res.send("ok")
+   db_handler.deletePersonInDB(req.body.id).then(r => {
+      res.send(r)
+   }).catch(err => {
+      res.status(500).send(err)
+   })
+})
+
+app.post("/get/appmnts", (req, res) => {
+   if (!check_hash(req.body.loginhash)) {
+      return res.status(401).send("wrong login hash")
+   }
+   db_handler.getAllAppmntsFromDB().then(r => {
+      res.send(r)
+   }).catch(err => {
+      res.status(500).send(err)
+   })
+})
+
+app.post("/new/appmnt", (req, res) => {
+   if (!check_hash(req.body.loginhash)) {
+      return res.status(401).send("wrong login hash")
+   }
+
+   db_handler.addAppmntToDB(req.body.name).then(r => {
+      res.send(r)
+   }).catch(err => {
+      res.status(500).send(err)
+   })
 })
 
 app.listen(6677, () => {

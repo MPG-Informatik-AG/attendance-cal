@@ -1,0 +1,13 @@
+date & end_date => timestamp
+id => automatisch und einzigartig
+name => varchar(128)
+
+
+
+user_id varchar(128)
+appmnt_id varchar(128)
+
+CREATE TABLE attendance_list (
+    user_id INT REFERENCES person_list(id) ON DELETE SET NULL,
+    appmnt_id INT REFERENCES appmnt_list(id) ON DELETE CASCADE
+)
