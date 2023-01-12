@@ -11,6 +11,9 @@
             these are all persons:
         </div>
 
+        <button id="new-appmnt-btn" onclick="document.getElementById('new-appmnt-popup').style.display = 'block'">create appmnt</button>
+        <div id="appmnt-list"></div>
+
         <div id="new-person-popup" class="popup" style="display: none">
             <h3>Create Person</h3>
             <input id="new-person-name" type="text" placeholder="please enter a name ..."/>
@@ -23,6 +26,20 @@
             <p>Do you really want to delete the person?</p>
             <button onclick="deletePerson()">Delete</button>
             <button onclick="document.getElementById('delete-person-popup').style.display = 'none'">Cancel</button>
+        </div>
+
+        <div id="new-appmnt-popup" class="popup" style="display: none">
+            <h3>Create Appointment</h3>
+            <input id="new-appmnt-name" type="text" placeholder="please enter a name ..."/><br>
+
+            <label for="appmnt-date">Start time:</label><br>
+            <input type="datetime-local" id="appmnt-date"><br>
+
+            <label for="appmnt-end-date">End time:</label><br>
+            <input type="datetime-local" id="appmnt-end-date"><br>
+
+            <button onclick="createAppmnt()">Create appointment</button>
+            <button onclick="document.getElementById('new-appmnt-popup').style.display = 'none'">Cancel</button>
         </div>
     </body>
 </html>

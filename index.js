@@ -73,6 +73,7 @@ app.post("/new/appmnt", (req, res) => {
    db_handler.addAppmntToDB(req.body.name).then(r => {
       res.send(r)
    }).catch(err => {
+      console.error(err)
       res.status(500).send(err)
    })
 })

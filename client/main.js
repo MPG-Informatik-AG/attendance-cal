@@ -7,6 +7,7 @@ window.onload = () => {
 		return
 	}
 	getAllPersons()
+	getAllAppmnts()
 }
 
 function getAllPersons() {
@@ -57,6 +58,46 @@ function deletePerson() {
     if (xhr.status == 200) {
 		getAllPersons()
 		document.getElementById('delete-person-popup').style.display = 'none'
+    } else {
+        console.error(xhr.response)
+    }
+}
+
+function getAllAppmnts() {
+    var xhr = new XMLHttpRequest()
+    xhr.open("POST", "http://localhost:6677/get/appmnts", false)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify({
+        loginhash: loginhash
+    }))
+    if (xhr.status == 200) {
+		document.querySelectorAll("#appmnt-list .appmnt").forEach(e => e.remove())
+
+		let appmnts = JSON.parse(xhr.response).sort((a, b) => a.date - b.date)
+		for (let a of appmnts) {
+			document.getElementById("appmnt-list").innerHTML += `<div class="appmnt">
+				<h4>${a.name} - ${a.id}</h4>
+				${a.date} - ${a.end_date}
+			</div>`
+		}
+    } else {
+        console.error(xhr.response)
+    }
+}
+
+function createAppmnt() {
+	var xhr = new XMLHttpRequest()
+    xhr.open("POST", "http://localhost:6677/new/appmnt", false)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify({
+        loginhash: loginhash,
+		name: document.getElementById("new-appmnt-name").value,
+		date: new Date(document.getElementById("appmnt-date").value).toISOString(),
+		end_date: new Date(document.getElementById("appmnt-end-date").value).toISOString(),
+    }))
+    if (xhr.status == 200) {
+		getAllAppmnts()
+		document.getElementById('new-appmnt-popup').style.display = 'none'
     } else {
         console.error(xhr.response)
     }

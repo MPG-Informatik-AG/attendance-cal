@@ -1,3 +1,7 @@
+html, body {
+    margin: 0
+}
+
 #person-list {
     position: fixed;
     top: 2%;
@@ -32,4 +36,29 @@
     margin-left: 50%;
     transform: translateX(-50%);
     display: block;
+}
+
+#appmnt-list {
+    position: absolute;
+    top: 25%;
+    bottom: 2%;
+    background-color: #ccc;
+    border-radius: 5px;
+    min-width: 100%;
+    margin: 0;
+}
+
+.appmnt {
+    display: inline-block;
+    background-color: #fff;
+    margin: 15px;
+    border-radius: 5px;
+    height: calc(100% - 30px);
+    width: 20vw;
+}
+
+#new-appmnt-btn {
+    position: absolute;
+    top: 22%;
+    left: 10px;
 }

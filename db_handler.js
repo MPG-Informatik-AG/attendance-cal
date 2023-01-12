@@ -3,7 +3,7 @@ const {Pool, types} = require("pg")
 const db_pool = new Pool({connectionString: "postgresql://infoag:infoag@v2202111121097167229.goodsrv.de:5432/attendance_cal"})
 
 async function createPersonInDB(name) {
-    return db_pool.query("INSERT INTO person_list (name) VALUES ($1)", [name]).then(_ => {
+    return db_pool.query(`INSERT INTO person_list (name) VALUES ($1)`, [name]).then(_ => {
         return "ok"
     }).catch(err => {
         throw err
