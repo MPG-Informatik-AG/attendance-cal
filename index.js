@@ -70,10 +70,21 @@ app.post("/new/appmnt", (req, res) => {
       return res.status(401).send("wrong login hash")
    }
 
-   db_handler.addAppmntToDB(req.body.name).then(r => {
+   db_handler.addAppmntToDB(req.body.date, req.body.end_date, req.body.name).then(r => {
       res.send(r)
    }).catch(err => {
       console.error(err)
+      res.status(500).send(err)
+   })
+})
+
+app.post("/delete/appmnt", (req, res) => {
+   if (!check_hash(req.body.loginhash)) {
+      return res.status(401).send("wrong login hash")
+   }
+   db_handler.removeAppointmentFromDB(req.body.id).then(r => {
+      res.send(r)
+   }).catch(err => {
       res.status(500).send(err)
    })
 })

@@ -43,7 +43,8 @@ async function removeAppointmentFromDB(id) {
 }
 
 async function addAppmntToDB(date, end_date, name) {
-    return db_pool.query("INSERT INTO appmnt_list (date, end_date, name) VALUES ($1, $2, $3)", [(new Date(date)).toISOString(), (new Date(end_date)).toISOString(), name]).then(_ => {
+    console.log(date, end_date)
+    return db_pool.query("INSERT INTO appmnt_list (date, end_date, name) VALUES ($1, $2, $3)", [new Date(date), new Date(end_date), name]).then(_ => {
         return "ok"
     }).catch(err => {
         throw err

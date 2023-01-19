@@ -77,9 +77,27 @@ function getAllAppmnts() {
 		for (let a of appmnts) {
 			document.getElementById("appmnt-list").innerHTML += `<div class="appmnt">
 				<h4>${a.name} - ${a.id}</h4>
+                <a onclick="appmntToDelete = ${a.id}; document.getElementById('delete-appmnt-popup').style.display = 'block'">delete</a><br>
 				${a.date} - ${a.end_date}
 			</div>`
 		}
+    } else {
+        console.error(xhr.response)
+    }
+}
+
+let appmntToDelete = -1
+function deleteAppmnt() {
+	var xhr = new XMLHttpRequest()
+    xhr.open("POST", "http://localhost:6677/delete/appmnt", false)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify({
+        loginhash: loginhash,
+		id: appmntToDelete
+    }))
+    if (xhr.status == 200) {
+		getAllAppmnts()
+		document.getElementById('delete-appmnt-popup').style.display = 'none'
     } else {
         console.error(xhr.response)
     }
