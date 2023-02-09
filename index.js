@@ -89,6 +89,17 @@ app.post("/delete/appmnt", (req, res) => {
    })
 })
 
+app.post("/appmnt/addpersons", (req, res) => {
+   if (!check_hash(req.body.loginhash)) {
+      return res.status(401).send("wrong login hash")
+   }
+   db_handler.addAttendancesToDB(req.body.user_ids, req.body.appmnt_id).then(r => {
+      res.send(r)
+   }).catch(err => {
+      res.status(500).send(err)
+   })
+})
+
 app.listen(6677, () => {
    console.log("[express] server listening")
 })

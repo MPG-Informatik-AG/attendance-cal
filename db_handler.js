@@ -51,8 +51,8 @@ async function addAppmntToDB(date, end_date, name) {
     })
 }
 
-async function addAttendanceToDB(user_id, appmnt_id) {
-    return db_pool.query("INSERT INTO attendance_list (user_id, appmnt_id) VALUES ($1, $2)", [user_id, appmnt_id]).then(_ => {
+async function addAttendancesToDB(user_ids, appmnt_id) {
+    return db_pool.query(`INSERT INTO attendance_list (user_id, appmnt_id) VALUES ${user_ids.map((_, idx) => `($${idx+2}, $1)`)}`, [appmnt_id, ...user_ids]).then(_ => {
         return "ok"
     }).catch(err => {
         throw err
@@ -72,7 +72,7 @@ module.exports = {
     createPersonInDB,
     deletePersonInDB,
     addAppmntToDB,
-    addAttendanceToDB,
+    addAttendancesToDB,
     deleteAttendanceFromDB,
     getAllAppmntsFromDB,
     removeAppointmentFromDB

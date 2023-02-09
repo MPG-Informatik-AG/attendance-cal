@@ -19,11 +19,16 @@ function getAllPersons() {
     }))
     if (xhr.status == 200) {
 		document.querySelectorAll("#person-list .person").forEach(e => e.remove())
+		document.querySelectorAll("#add-attendance-popup .person-list .person").forEach(e => e.remove())
 
 		let persons = JSON.parse(xhr.response)
 		for (let p of persons) {
 			document.getElementById("person-list").innerHTML += `<div class="person">- ${p.name} - ${p.id}  
 			<a onclick="personToDelete = ${p.id}; document.getElementById('delete-person-popup').style.display = 'block'">delete</a></div>`
+            
+            document.querySelector("#add-attendance-popup .person-list").innerHTML += `<div class="person">
+                    <input type="checkbox"/> ${p.name} - ${p.id}
+                </div>`
 		}
     } else {
         console.error(xhr.response)
@@ -78,7 +83,9 @@ function getAllAppmnts() {
 			document.getElementById("appmnt-list").innerHTML += `<div class="appmnt">
 				<h4>${a.name} - ${a.id}</h4>
                 <a onclick="appmntToDelete = ${a.id}; document.getElementById('delete-appmnt-popup').style.display = 'block'">delete</a><br>
-				${a.date} - ${a.end_date}
+				${a.date} - ${a.end_date}<br>
+
+                <button onclick="document.getElementById('add-attendance-popup').style.display = 'block'">Add attendance</button>
 			</div>`
 		}
     } else {
