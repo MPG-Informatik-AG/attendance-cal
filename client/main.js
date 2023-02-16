@@ -27,7 +27,7 @@ function getAllPersons() {
 			<a onclick="personToDelete = ${p.id}; document.getElementById('delete-person-popup').style.display = 'block'">delete</a></div>`
             
             document.querySelector("#add-attendance-popup .person-list").innerHTML += `<div class="person">
-                    <input type="checkbox"/> ${p.name} - ${p.id}
+                    <input type="checkbox" data-id="${p.id}"/> ${p.name} - ${p.id}
                 </div>`
 		}
     } else {
@@ -83,9 +83,13 @@ function getAllAppmnts() {
 			document.getElementById("appmnt-list").innerHTML += `<div class="appmnt">
 				<h4>${a.name} - ${a.id}</h4>
                 <a onclick="appmntToDelete = ${a.id}; document.getElementById('delete-appmnt-popup').style.display = 'block'">delete</a><br>
-				${a.date} - ${a.end_date}<br>
+				${a.date} - ${a.end_date}<br><br>
+				
+				<span class="attendance-list">
+					${(a.person_list ? a.person_list.map(el => `-${el.name} ${el.user_id}`).join("<br>") : "")}
+				</span><br>
 
-                <button onclick="document.getElementById('add-attendance-popup').style.display = 'block'">Add attendance</button>
+                <button onclick="focusedAppmnt = '${a.id}'; document.getElementById('add-attendance-popup').style.display = 'block'">Add attendance</button>
 			</div>`
 		}
     } else {
@@ -123,6 +127,25 @@ function createAppmnt() {
     if (xhr.status == 200) {
 		getAllAppmnts()
 		document.getElementById('new-appmnt-popup').style.display = 'none'
+    } else {
+        console.error(xhr.response)
+    }
+}
+
+let focusedAppmnt = null
+function addAttendance() {
+    let boxes = document.querySelectorAll("#add-attendance-popup .person-list .person input")
+    var xhr = new XMLHttpRequest()
+    xhr.open("POST", "http://localhost:6677/appmnt/addpersons", false)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify({
+        loginhash: loginhash,
+        appmnt_id: focusedAppmnt,
+        user_ids: Array.from(boxes).filter(el => el.checked == true).map(el => el.dataset.id)
+    }))
+    if (xhr.status == 200) {
+		getAllAppmnts()
+		document.getElementById('add-attendance-popup').style.display = 'none'
     } else {
         console.error(xhr.response)
     }

@@ -27,7 +27,19 @@ async function deletePersonInDB(id) {
 }
 
 async function getAllAppmntsFromDB() {
-    return db_pool.query("SELECT * FROM appmnt_list").then(res => {
+    return db_pool.query(`
+		SELECT date, end_date, id, name,
+		(
+			SELECT array_to_json(array_agg(row_to_json(f)))
+			FROM (
+				SELECT user_id, person_list.name FROM attendance_list
+				LEFT JOIN person_list ON person_list.id = user_id
+				WHERE attendance_list.appmnt_id = appmnt_list.id
+			) f
+		 ) as person_list
+
+		 FROM appmnt_list
+		`).then(res => {
         return res.rows
     }).catch(err => {
         throw err
